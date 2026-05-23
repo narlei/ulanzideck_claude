@@ -23,7 +23,7 @@ Display your Claude Code subscription usage directly on your Ulanzi Deck.
 
 ## Requirements
 
-- Ulanzi Deck 2.1.4 or later
+- Ulanzi Deck 3.0.11 or later
 - macOS 10.15 or later
 - Claude Code subscription (credentials stored in your macOS keychain)
 

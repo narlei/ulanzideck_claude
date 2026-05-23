@@ -1,9 +1,9 @@
 {
-  "UUID": "com.ulanzi.ulanzistudio.claudeusage",
+  "UUID": "com.narlei.claudeusage.plugin",
   "Name": "Claude Code Usage",
-  "Description": "Display Claude Code subscription usage on your Ulanzi Deck.",
+  "Description": "Monitor your Claude Code subscription usage in real time. Shows the 5-hour rolling limit and the weekly limit (all models) directly on your Ulanzi Deck button, with color-coded thresholds and reset countdown. Credentials are read securely from the macOS Keychain — no API key required.",
   "Author": "Narlei Moreira",
-  "Version": "0.1.0",
+  "Version": "1.0.0",
   "Icon": "resources/icon.png",
   "Category": "Claude Code",
   "CategoryIcon": "resources/icon.png",
@@ -17,7 +17,7 @@
       "Tooltip": "Claude Code 5-hour rolling limit usage.",
       "Icon": "resources/action-5h.png",
       "PropertyInspectorPath": "property-inspector/inspector.html",
-      "UUID": "com.ulanzi.ulanzistudio.claudeusage.fivehour",
+      "UUID": "com.narlei.claudeusage.plugin.fivehour",
       "States": [
         { "Image": "resources/action-5h.png" }
       ],
@@ -29,7 +29,7 @@
       "Tooltip": "Claude Code weekly (all models) usage.",
       "Icon": "resources/action-7d.png",
       "PropertyInspectorPath": "property-inspector/inspector.html",
-      "UUID": "com.ulanzi.ulanzistudio.claudeusage.weekly",
+      "UUID": "com.narlei.claudeusage.plugin.weekly",
       "States": [
         { "Image": "resources/action-7d.png" }
       ],
@@ -41,6 +41,6 @@
     { "Platform": "mac", "MinimumVersion": "10.15" }
   ],
   "Software": {
-    "MinVersion": "2.1.4"
+    "MinVersion": "3.0.11"
   }
 }

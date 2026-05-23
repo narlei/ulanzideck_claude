@@ -6,34 +6,12 @@
   <title>Claude Code Usage</title>
   <link rel="stylesheet" href="../libs/css/uspi.css">
   <style>
-    .uspi-item-label { width: 80px; }
-    .radio-row { display: flex; flex-direction: column; gap: 8px; }
-    .radio-row label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-    .help-text { font-size: 12px; opacity: 0.7; margin-top: 8px; line-height: 1.4; }
+    .help-text { font-size: 12px; opacity: 0.7; padding: 12px 8px; line-height: 1.5; }
   </style>
 </head>
 <body>
   <div class="udpi-wrapper hidden uspi-wrapper">
     <form id="property-inspector">
-      <div class="uspi-item alignTop">
-        <div class="uspi-item-label" data-localize>Metric</div>
-        <div class="uspi-item-value">
-          <div class="radio-row">
-            <label><input type="radio" name="metric" value="5h"> <span data-localize>5-hour limit</span></label>
-            <label><input type="radio" name="metric" value="7d"> <span data-localize>Weekly (all models)</span></label>
-          </div>
-        </div>
-      </div>
-      <div class="uspi-item alignTop">
-        <div class="uspi-item-label" data-localize>Model</div>
-        <div class="uspi-item-value">
-          <select name="model">
-            <option value="claude-haiku-4-5-20251001">Haiku 4.5 (default)</option>
-            <option value="claude-sonnet-4-6">Sonnet 4.6</option>
-            <option value="claude-opus-4-7">Opus 4.7</option>
-          </select>
-        </div>
-      </div>
       <div class="help-text" data-localize>Click the button to force a refresh.</div>
     </form>
   </div>

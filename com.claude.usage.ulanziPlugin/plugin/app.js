@@ -10,9 +10,9 @@ import {
   renderError,
 } from './renderer.js';
 
-const PLUGIN_UUID = 'com.ulanzi.ulanzistudio.claudeusage';
-const ACTION_5H = 'com.ulanzi.ulanzistudio.claudeusage.fivehour';
-const ACTION_7D = 'com.ulanzi.ulanzistudio.claudeusage.weekly';
+const PLUGIN_UUID = 'com.narlei.claudeusage.plugin';
+const ACTION_5H = 'com.narlei.claudeusage.plugin.fivehour';
+const ACTION_7D = 'com.narlei.claudeusage.plugin.weekly';
 const POLL_INTERVAL_MS = 60_000;
 const STALE_THRESHOLD_SEC = 90;
 
@@ -99,7 +99,7 @@ async function refresh(inst) {
   if (inst.inflight) return;
   inst.inflight = true;
   try {
-    const result = await fetchUsage({ model: inst.settings.model });
+    const result = await fetchUsage();
     if (result.ok) inst.lastGood = result;
     applyResult(inst, result);
   } catch (e) {

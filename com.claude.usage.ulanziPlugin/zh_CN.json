@@ -1,0 +1,17 @@
+{
+  "Name": "Claude Code 用量",
+  "Description": "在 Ulanzi Deck 上实时监控你的 Claude Code 订阅用量。显示 5 小时滚动限额和每周总限额（所有模型），按钮带有颜色阈值和重置倒计时。凭证安全地从 macOS 钥匙串读取——无需 API 密钥。",
+  "Actions": [
+    {
+      "Name": "5 小时限额",
+      "Tooltip": "Claude Code 5 小时滚动用量。"
+    },
+    {
+      "Name": "每周限额",
+      "Tooltip": "Claude Code 每周（所有模型）用量。"
+    }
+  ],
+  "Localization": {
+    "Click the button to force a refresh.": "点击按钮强制刷新。"
+  }
+}

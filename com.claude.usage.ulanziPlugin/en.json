@@ -1,6 +1,6 @@
 {
   "Name": "Claude Code Usage",
-  "Description": "Display Claude Code subscription usage on your Ulanzi Deck.",
+  "Description": "Monitor your Claude Code subscription usage in real time. Shows the 5-hour rolling limit and the weekly limit (all models) directly on your Ulanzi Deck button, with color-coded thresholds and reset countdown. Credentials are read securely from the macOS Keychain — no API key required.",
   "Actions": [
     {
       "Name": "5-hour Limit",
@@ -12,9 +12,6 @@
     }
   ],
   "Localization": {
-    "Metric": "Metric",
-    "5-hour limit": "5-hour limit",
-    "Weekly (all models)": "Weekly (all models)",
     "Click the button to force a refresh.": "Click the button to force a refresh."
   }
 }

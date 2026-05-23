@@ -1,15 +1,15 @@
 {
   "name": "claude-code-usage",
-  "version": "0.1.0",
-  "description": "Ulanzi Deck plugin that shows Claude Code usage on a button.",
+  "version": "1.0.0",
+  "description": "Ulanzi Deck plugin that displays your Claude Code subscription usage (5-hour rolling and weekly limits) on a button.",
+  "author": "Narlei Moreira",
+  "license": "MIT",
   "main": "plugin/app.js",
   "type": "module",
   "scripts": {
     "start": "node plugin/app.js"
   },
   "dependencies": {
-    "@svgdotjs/svg.js": "3.2.4",
-    "svgdom": "0.1.19",
     "ws": "8.18.0"
   }
 }
