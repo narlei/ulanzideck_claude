@@ -2,6 +2,8 @@
 
 Display your Claude Code subscription usage directly on your Ulanzi Deck.
 
+![Ulanzi Deck preview](images/deck.png)
+
 ## Features
 
 - **5-Hour Rolling Limit** - Shows your current usage in the 5-hour window
