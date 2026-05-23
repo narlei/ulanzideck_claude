@@ -9,11 +9,15 @@ const API_HEADERS = {
   'Content-Type': 'application/json',
   'User-Agent': 'claude-code/2.1.5',
 };
-const API_BODY = JSON.stringify({
-  model: 'claude-haiku-4-5-20251001',
-  max_tokens: 1,
-  messages: [{ role: 'user', content: 'hi' }],
-});
+const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
+
+function buildApiBody(model) {
+  return JSON.stringify({
+    model: model || DEFAULT_MODEL,
+    max_tokens: 1,
+    messages: [{ role: 'user', content: 'hi' }],
+  });
+}
 
 export const ErrorKind = Object.freeze({
   NO_TOKEN: 'NO_TOKEN',
@@ -68,7 +72,7 @@ function epoch(v) {
   return Number.isFinite(n) ? n : null;
 }
 
-export async function fetchUsage({ signal } = {}) {
+export async function fetchUsage({ signal, model } = {}) {
   const token = await readToken();
   if (!token) {
     return { ok: false, kind: ErrorKind.NO_TOKEN, message: 'No Claude Code credentials in keychain' };
@@ -79,7 +83,7 @@ export async function fetchUsage({ signal } = {}) {
     resp = await fetch(API_URL, {
       method: 'POST',
       headers: { ...API_HEADERS, Authorization: `Bearer ${token}` },
-      body: API_BODY,
+      body: buildApiBody(model),
       signal,
     });
   } catch (e) {

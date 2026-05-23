@@ -99,7 +99,7 @@ async function refresh(inst) {
   if (inst.inflight) return;
   inst.inflight = true;
   try {
-    const result = await fetchUsage();
+    const result = await fetchUsage({ model: inst.settings.model });
     if (result.ok) inst.lastGood = result;
     applyResult(inst, result);
   } catch (e) {
