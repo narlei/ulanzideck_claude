@@ -1,0 +1,20 @@
+{
+  "Name": "Claude Code Usage",
+  "Description": "Display Claude Code subscription usage on your Ulanzi Deck.",
+  "Actions": [
+    {
+      "Name": "5-hour Limit",
+      "Tooltip": "Claude Code 5-hour rolling limit usage."
+    },
+    {
+      "Name": "Weekly Limit",
+      "Tooltip": "Claude Code weekly (all models) usage."
+    }
+  ],
+  "Localization": {
+    "Metric": "Metric",
+    "5-hour limit": "5-hour limit",
+    "Weekly (all models)": "Weekly (all models)",
+    "Click the button to force a refresh.": "Click the button to force a refresh."
+  }
+}

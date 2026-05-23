@@ -1,0 +1,46 @@
+{
+  "UUID": "com.ulanzi.ulanzistudio.claudeusage",
+  "Name": "Claude Code Usage",
+  "Description": "Display Claude Code subscription usage on your Ulanzi Deck.",
+  "Author": "Narlei Moreira",
+  "Version": "0.1.0",
+  "Icon": "resources/icon.png",
+  "Category": "Claude Code",
+  "CategoryIcon": "resources/icon.png",
+  "CodePath": "plugin/app.js",
+  "Type": "JavaScript",
+  "PrivateAPI": true,
+  "SupportedInMultiActions": false,
+  "Actions": [
+    {
+      "Name": "5-hour Limit",
+      "Tooltip": "Claude Code 5-hour rolling limit usage.",
+      "Icon": "resources/action-5h.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "UUID": "com.ulanzi.ulanzistudio.claudeusage.fivehour",
+      "States": [
+        { "Image": "resources/action-5h.png" }
+      ],
+      "SupportedInMultiActions": false,
+      "Controllers": ["Keypad"]
+    },
+    {
+      "Name": "Weekly Limit",
+      "Tooltip": "Claude Code weekly (all models) usage.",
+      "Icon": "resources/action-7d.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "UUID": "com.ulanzi.ulanzistudio.claudeusage.weekly",
+      "States": [
+        { "Image": "resources/action-7d.png" }
+      ],
+      "SupportedInMultiActions": false,
+      "Controllers": ["Keypad"]
+    }
+  ],
+  "OS": [
+    { "Platform": "mac", "MinimumVersion": "10.15" }
+  ],
+  "Software": {
+    "MinVersion": "2.1.4"
+  }
+}
