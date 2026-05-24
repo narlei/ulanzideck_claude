@@ -12,6 +12,10 @@
     }
   ],
   "Localization": {
-    "Click the button to force a refresh.": "Click the button to force a refresh."
+    "Setup required": "Setup required",
+    "This plugin reads usage from the Claude Code CLI credentials stored in your macOS Keychain.": "This plugin reads usage from the Claude Code CLI credentials stored in your macOS Keychain.",
+    "Install the CLI:": "Install the CLI:",
+    "Sign in once:": "Sign in once:",
+    "The token refreshes automatically when it expires. Click the button to force a refresh.": "The token refreshes automatically when it expires. Click the button to force a refresh."
   }
 }

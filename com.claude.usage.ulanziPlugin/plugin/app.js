@@ -13,7 +13,7 @@ import {
 const PLUGIN_UUID = 'com.narlei.claudeusage.plugin';
 const ACTION_5H = 'com.narlei.claudeusage.plugin.fivehour';
 const ACTION_7D = 'com.narlei.claudeusage.plugin.weekly';
-const POLL_INTERVAL_MS = 60_000;
+const POLL_INTERVAL_MS = 5 * 60 * 1000;
 const STALE_THRESHOLD_SEC = 90;
 
 const $UD = new UlanziApi();

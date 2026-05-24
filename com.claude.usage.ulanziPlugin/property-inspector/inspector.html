@@ -6,13 +6,27 @@
   <title>Claude Code Usage</title>
   <link rel="stylesheet" href="../libs/css/uspi.css">
   <style>
-    .help-text { font-size: 12px; opacity: 0.7; padding: 12px 8px; line-height: 1.5; }
+    .panel { padding: 8px 12px; font-size: 12px; line-height: 1.5; }
+    .panel h4 { margin: 6px 0 4px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.8; }
+    .panel p { margin: 0 0 8px; opacity: 0.85; }
+    .panel code { background: rgba(255,255,255,0.08); padding: 1px 5px; border-radius: 3px; font-family: 'SF Mono', Menlo, monospace; font-size: 11px; }
+    .panel ol { margin: 0 0 8px 18px; padding: 0; }
+    .panel li { margin: 0 0 4px; }
+    .panel .muted { opacity: 0.6; font-size: 11px; }
   </style>
 </head>
 <body>
   <div class="udpi-wrapper hidden uspi-wrapper">
     <form id="property-inspector">
-      <div class="help-text" data-localize>Click the button to force a refresh.</div>
+      <div class="panel">
+        <h4 data-localize>Setup required</h4>
+        <p data-localize>This plugin reads usage from the Claude Code CLI credentials stored in your macOS Keychain.</p>
+        <ol>
+          <li data-localize>Install the CLI: <code>brew install claude-code</code></li>
+          <li data-localize>Sign in once: <code>claude auth login</code></li>
+        </ol>
+        <p class="muted" data-localize>The token refreshes automatically when it expires. Click the button to force a refresh.</p>
+      </div>
     </form>
   </div>
 

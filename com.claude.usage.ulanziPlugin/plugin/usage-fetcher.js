@@ -68,7 +68,31 @@ function epoch(v) {
   return Number.isFinite(n) ? n : null;
 }
 
-export async function fetchUsage({ signal } = {}) {
+// Trigger a CLI-side token refresh by invoking `claude -p` with a tiny budget cap.
+// The cap causes the CLI to abort BEFORE actually consuming tokens, but the OAuth
+// refresh has already run by then — so the keychain entry is updated for free.
+const REFRESH_COOLDOWN_MS = 5 * 60 * 1000;
+let _lastRefreshAttempt = 0;
+
+function attemptCliRefresh() {
+  const now = Date.now();
+  if (now - _lastRefreshAttempt < REFRESH_COOLDOWN_MS) {
+    return Promise.resolve(false);
+  }
+  _lastRefreshAttempt = now;
+  return new Promise((resolve) => {
+    const candidates = ['/opt/homebrew/bin/claude', '/usr/local/bin/claude', 'claude'];
+    const bin = candidates[0];
+    const p = spawn(bin, ['-p', 'hi', '--max-budget-usd', '0.01'], {
+      stdio: ['ignore', 'ignore', 'ignore'],
+      timeout: 20_000,
+    });
+    p.on('close', () => resolve(true));
+    p.on('error', () => resolve(false));
+  });
+}
+
+export async function fetchUsage({ signal, _retried } = {}) {
   const token = await readToken();
   if (!token) {
     return { ok: false, kind: ErrorKind.NO_TOKEN, message: 'No Claude Code credentials in keychain' };
@@ -87,6 +111,12 @@ export async function fetchUsage({ signal } = {}) {
   }
 
   if (resp.status === 401 || resp.status === 403) {
+    if (!_retried) {
+      const refreshed = await attemptCliRefresh();
+      if (refreshed) {
+        return fetchUsage({ signal, _retried: true });
+      }
+    }
     return { ok: false, kind: ErrorKind.AUTH, message: `HTTP ${resp.status}` };
   }
 
