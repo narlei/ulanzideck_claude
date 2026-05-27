@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="com.claude.usage.ulanziPlugin/resources/icon.png" alt="Plugin logo" width="128">
+</p>
+
 # Claude Code Usage Plugin for Ulanzi Deck
 
 Display your Claude Code subscription usage directly on your Ulanzi Deck.
