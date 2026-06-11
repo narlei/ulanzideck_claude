@@ -1,0 +1,21 @@
+{
+  "Name": "Claude Code 使用量",
+  "Description": "Claude Code サブスクリプションの使用量をリアルタイムで監視します。5 時間のローリング制限と週間制限（全モデル）を Ulanzi Deck のボタンに直接表示し、色分けされたしきい値とリセットまでのカウントダウンを表示します。認証情報は macOS キーチェーンから安全に読み取られ、API キーは不要です。",
+  "Actions": [
+    {
+      "Name": "5 時間制限",
+      "Tooltip": "Claude Code の 5 時間ローリング制限の使用量。"
+    },
+    {
+      "Name": "週間制限",
+      "Tooltip": "Claude Code の週間使用量（全モデル）。"
+    }
+  ],
+  "Localization": {
+    "setupRequired": "セットアップが必要です",
+    "keychainInfo": "このプラグインは、macOS キーチェーンに保存された Claude Code CLI の認証情報から使用量を読み取ります。",
+    "installCli": "CLI をインストール: <code>brew install claude-code</code>",
+    "signIn": "一度サインイン: <code>claude auth login</code>",
+    "tokenRefresh": "トークンは期限切れ時に自動的に更新されます。ボタンをクリックすると強制的に更新できます。"
+  }
+}
