@@ -76,9 +76,17 @@ function renderForInstance(inst) {
     return;
   }
   if (lastResult.kind === ErrorKind.RATE_LIMITED) {
+    // 429 response still includes per-metric headers: only show "stopped" for the rejected
+    // metric, the other continues to display actual utilization if not rejected.
     const data = lastResult.data;
+    const util = data ? (metric === '7d' ? data.util7d : data.util5h) : null;
     const reset = data ? (metric === '7d' ? data.reset7d : data.reset5h) : null;
-    pushIcon(context, renderStopped({ label, reset: formatReset(reset) }));
+    const status = data ? (metric === '7d' ? data.status7d : data.status5h) : null;
+    if (status === 'rejected' || util === null || util === undefined) {
+      pushIcon(context, renderStopped({ label, reset: formatReset(reset) }));
+    } else {
+      pushIcon(context, renderUsage({ label, util, reset: formatReset(reset) }));
+    }
     return;
   }
 
