@@ -128,10 +128,12 @@ class UlanziUtils {
 			}else{
 				userLanguage = 'zh_HK'
 			}
-		} else if (ln.indexOf('en') == 0) {
-			userLanguage = 'en'
-		} else if (userLanguage.indexOf('-') !== -1) {
-			userLanguage = userLanguage.replace(/-/g, '_');
+		} else if (ln.indexOf('pt') == 0) {
+			// only pt_BR is shipped
+			userLanguage = 'pt_BR'
+		} else {
+			// ja_JP / de-DE / en-US → ja / de / en
+			userLanguage = ln.split(/[-_]/)[0];
 		}
 
 		return userLanguage

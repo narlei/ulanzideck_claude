@@ -1,0 +1,21 @@
+{
+  "Name": "Utilisation Claude Code",
+  "Description": "Surveillez en temps réel l'utilisation de votre abonnement Claude Code. Affiche la limite glissante de 5 heures et la limite hebdomadaire (tous modèles) directement sur le bouton de votre Ulanzi Deck, avec des seuils de couleur et un compte à rebours avant réinitialisation. Les identifiants sont lus en toute sécurité depuis le trousseau macOS — aucune clé API requise.",
+  "Actions": [
+    {
+      "Name": "Limite 5 heures",
+      "Tooltip": "Utilisation de la limite glissante de 5 heures de Claude Code."
+    },
+    {
+      "Name": "Limite hebdomadaire",
+      "Tooltip": "Utilisation hebdomadaire de Claude Code (tous modèles)."
+    }
+  ],
+  "Localization": {
+    "setupRequired": "Configuration requise",
+    "keychainInfo": "Ce plugin lit l'utilisation à partir des identifiants de la CLI Claude Code stockés dans le trousseau macOS.",
+    "installCli": "Installez la CLI : <code>brew install claude-code</code>",
+    "signIn": "Connectez-vous une fois : <code>claude auth login</code>",
+    "tokenRefresh": "Le jeton est renouvelé automatiquement à son expiration. Cliquez sur le bouton pour forcer une actualisation."
+  }
+}

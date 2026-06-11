@@ -1,0 +1,21 @@
+{
+  "Name": "Uso do Claude Code",
+  "Description": "Monitore o uso da sua assinatura do Claude Code em tempo real. Mostra o limite móvel de 5 horas e o limite semanal (todos os modelos) direto no botão do seu Ulanzi Deck, com faixas de cores e contagem regressiva para o reset. As credenciais são lidas com segurança do Keychain do macOS — sem necessidade de chave de API.",
+  "Actions": [
+    {
+      "Name": "Limite de 5 horas",
+      "Tooltip": "Uso do limite móvel de 5 horas do Claude Code."
+    },
+    {
+      "Name": "Limite semanal",
+      "Tooltip": "Uso semanal do Claude Code (todos os modelos)."
+    }
+  ],
+  "Localization": {
+    "setupRequired": "Configuração necessária",
+    "keychainInfo": "Este plugin lê o uso a partir das credenciais da CLI do Claude Code armazenadas no Keychain do macOS.",
+    "installCli": "Instale a CLI: <code>brew install claude-code</code>",
+    "signIn": "Faça login uma vez: <code>claude auth login</code>",
+    "tokenRefresh": "O token é renovado automaticamente quando expira. Clique no botão para forçar uma atualização."
+  }
+}
