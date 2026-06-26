@@ -3,6 +3,7 @@ import os from 'os';
 
 const KEYCHAIN_SERVICE = 'Claude Code-credentials';
 const API_URL = 'https://api.anthropic.com/v1/messages';
+const FETCH_TIMEOUT_MS = 15_000;
 const API_HEADERS = {
   'anthropic-version': '2023-06-01',
   'anthropic-beta': 'oauth-2025-04-20',
@@ -106,16 +107,28 @@ export async function fetchUsage({ signal, _retried, force } = {}) {
     return { ok: false, kind: ErrorKind.NO_TOKEN, message: 'No Claude Code credentials in keychain' };
   }
 
+  // Bound the request so a stalled connection can't leave the caller's inflight
+  // lock stuck forever (app.js only clears it once this promise settles).
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  if (signal) {
+    if (signal.aborted) controller.abort();
+    else signal.addEventListener('abort', () => controller.abort(), { once: true });
+  }
+
   let resp;
   try {
     resp = await fetch(API_URL, {
       method: 'POST',
       headers: { ...API_HEADERS, Authorization: `Bearer ${token}` },
       body: API_BODY,
-      signal,
+      signal: controller.signal,
     });
   } catch (e) {
-    return { ok: false, kind: ErrorKind.NETWORK, message: e?.message || 'fetch failed' };
+    const message = controller.signal.aborted ? `timeout after ${FETCH_TIMEOUT_MS}ms` : (e?.message || 'fetch failed');
+    return { ok: false, kind: ErrorKind.NETWORK, message };
+  } finally {
+    clearTimeout(timer);
   }
 
   if (resp.status === 401 || resp.status === 403) {
