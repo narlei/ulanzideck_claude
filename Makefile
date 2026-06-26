@@ -6,14 +6,30 @@ ZIP           := $(DIST_DIR)/$(PLUGIN_DIR).zip
 
 APP_NAME      := Ulanzi Studio
 
-.PHONY: help package install restart clean
+.PHONY: help package install restart clean bump_major bump_minor bump_patch
 
 help:
 	@echo "Available targets:"
-	@echo "  make package  - Build a distributable ZIP at $(ZIP)"
-	@echo "  make install  - Sync plugin + restart $(APP_NAME)"
-	@echo "  make restart  - Restart $(APP_NAME) only"
-	@echo "  make clean    - Remove $(DIST_DIR)/"
+	@echo "  make package     - Build a distributable ZIP at $(ZIP)"
+	@echo "  make install     - Sync plugin + restart $(APP_NAME)"
+	@echo "  make restart     - Restart $(APP_NAME) only"
+	@echo "  make clean       - Remove $(DIST_DIR)/"
+	@echo "  make bump_major  - Bump major version (1.0.0 → 2.0.0)"
+	@echo "  make bump_minor  - Bump minor version (1.0.0 → 1.1.0)"
+	@echo "  make bump_patch  - Bump patch version (1.0.0 → 1.0.1)"
+
+bump_major bump_minor bump_patch:
+	@TYPE=$(subst bump_,,$@); \
+	cd $(PLUGIN_DIR) && npm version $$TYPE --no-git-tag-version --silent; \
+	NEW_VER=$$(node -p "require('./package.json').version"); \
+	node -e " \
+		const fs = require('fs'); \
+		const f = 'manifest.json'; \
+		const m = JSON.parse(fs.readFileSync(f)); \
+		m.Version = '$$NEW_VER'; \
+		fs.writeFileSync(f, JSON.stringify(m, null, 2) + '\n'); \
+	"; \
+	echo "✓ Version bumped to $$NEW_VER (package.json + manifest.json)"
 
 package: clean
 	@echo "→ Reinstalling production deps in $(PLUGIN_DIR)..."

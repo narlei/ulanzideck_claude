@@ -103,11 +103,11 @@ function renderForInstance(inst) {
   pushIcon(context, renderError({ label, msg: 'no data' }));
 }
 
-async function refresh(inst) {
+async function refresh(inst, { force = false } = {}) {
   if (inst.inflight) return;
   inst.inflight = true;
   try {
-    const result = await fetchUsage();
+    const result = await fetchUsage({ force });
     if (result.ok) inst.lastGood = result;
     applyResult(inst, result);
   } catch (e) {
@@ -186,7 +186,7 @@ $UD.onRun((msg) => {
   }
   log('click → force refresh', msg.context);
   pushIcon(msg.context, renderLoading({ label: labelFor(inst.metric) }));
-  refresh(inst);
+  refresh(inst, { force: true });
 });
 
 $UD.onSetActive((msg) => {

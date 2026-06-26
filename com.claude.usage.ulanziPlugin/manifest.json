@@ -3,7 +3,7 @@
   "Name": "Claude Code Usage",
   "Description": "Monitor your Claude Code subscription usage in real time. Shows the 5-hour rolling limit and the weekly limit (all models) directly on your Ulanzi Deck button, with color-coded thresholds and reset countdown. Credentials are read securely from the macOS Keychain — no API key required.",
   "Author": "Narlei Moreira",
-  "Version": "1.0.4",
+  "Version": "1.0.5",
   "Icon": "resources/icon.png",
   "Category": "Claude Code",
   "CategoryIcon": "resources/icon.png",
@@ -19,10 +19,14 @@
       "PropertyInspectorPath": "property-inspector/inspector.html",
       "UUID": "com.narlei.claudeusage.plugin.fivehour",
       "States": [
-        { "Image": "resources/action-5h.png" }
+        {
+          "Image": "resources/action-5h.png"
+        }
       ],
       "SupportedInMultiActions": false,
-      "Controllers": ["Keypad"]
+      "Controllers": [
+        "Keypad"
+      ]
     },
     {
       "Name": "Weekly Limit",
@@ -31,14 +35,21 @@
       "PropertyInspectorPath": "property-inspector/inspector.html",
       "UUID": "com.narlei.claudeusage.plugin.weekly",
       "States": [
-        { "Image": "resources/action-7d.png" }
+        {
+          "Image": "resources/action-7d.png"
+        }
       ],
       "SupportedInMultiActions": false,
-      "Controllers": ["Keypad"]
+      "Controllers": [
+        "Keypad"
+      ]
     }
   ],
   "OS": [
-    { "Platform": "mac", "MinimumVersion": "10.15" }
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.15"
+    }
   ],
   "Software": {
     "MinVersion": "3.0.11"
