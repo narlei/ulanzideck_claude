@@ -74,15 +74,10 @@ function epoch(v) {
 const REFRESH_COOLDOWN_MS = 5 * 60 * 1000;
 let _lastRefreshAttempt = 0;
 
-function attemptCliRefresh() {
-  const now = Date.now();
-  if (now - _lastRefreshAttempt < REFRESH_COOLDOWN_MS) {
-    return Promise.resolve(false);
-  }
-  _lastRefreshAttempt = now;
+const CLAUDE_CANDIDATES = ['/opt/homebrew/bin/claude', '/usr/local/bin/claude', 'claude'];
+
+function spawnClaude(bin) {
   return new Promise((resolve) => {
-    const candidates = ['/opt/homebrew/bin/claude', '/usr/local/bin/claude', 'claude'];
-    const bin = candidates[0];
     const p = spawn(bin, ['-p', 'hi', '--max-budget-usd', '0.01'], {
       stdio: ['ignore', 'ignore', 'ignore'],
       timeout: 20_000,
@@ -92,7 +87,20 @@ function attemptCliRefresh() {
   });
 }
 
-export async function fetchUsage({ signal, _retried } = {}) {
+async function attemptCliRefresh(force = false) {
+  const now = Date.now();
+  if (!force && now - _lastRefreshAttempt < REFRESH_COOLDOWN_MS) {
+    return false;
+  }
+  _lastRefreshAttempt = now;
+  for (const bin of CLAUDE_CANDIDATES) {
+    const ok = await spawnClaude(bin);
+    if (ok) return true;
+  }
+  return false;
+}
+
+export async function fetchUsage({ signal, _retried, force } = {}) {
   const token = await readToken();
   if (!token) {
     return { ok: false, kind: ErrorKind.NO_TOKEN, message: 'No Claude Code credentials in keychain' };
@@ -112,7 +120,7 @@ export async function fetchUsage({ signal, _retried } = {}) {
 
   if (resp.status === 401 || resp.status === 403) {
     if (!_retried) {
-      const refreshed = await attemptCliRefresh();
+      const refreshed = await attemptCliRefresh(force);
       if (refreshed) {
         return fetchUsage({ signal, _retried: true });
       }
