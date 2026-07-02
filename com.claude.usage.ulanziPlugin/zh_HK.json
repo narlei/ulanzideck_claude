@@ -12,10 +12,12 @@
     }
   ],
   "Localization": {
-    "setupRequired": "需要設定",
-    "keychainInfo": "此外掛程式從儲存在 macOS 鑰匙圈中的 Claude Code CLI 憑證讀取用量。",
-    "installCli": "安裝 CLI：<code>brew install claude-code</code>",
-    "signIn": "登入一次：<code>claude auth login</code>",
+    "instanceLabel": "執行個體",
+    "instanceDefault": "預設 (~/.claude)",
+    "instanceCustom": "自訂設定目錄…",
+    "configDirLabel": "設定目錄",
+    "captionLabel": "標題",
+    "captionHint": "標題會顯示在按鈕上指標旁邊。將設定目錄留空以使用預設帳戶。",
     "tokenRefresh": "權杖過期時會自動更新。點擊按鈕可強制重新整理。"
   }
 }

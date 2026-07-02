@@ -1,9 +1,9 @@
 {
   "UUID": "com.narlei.claudeusage.plugin",
   "Name": "Claude Code Usage",
-  "Description": "Monitor your Claude Code subscription usage in real time. Shows the 5-hour rolling limit and the weekly limit (all models) directly on your Ulanzi Deck button, with color-coded thresholds and reset countdown. Credentials are read securely from the macOS Keychain — no API key required.",
+  "Description": "Monitor one or more Claude Code accounts in real time. Shows the 5-hour rolling limit and the weekly limit (all models) directly on your Ulanzi Deck button, with color-coded thresholds and reset countdown. Each button can target a different Claude Code config dir (CLAUDE_CONFIG_DIR) and carry a custom caption. Credentials are read securely from the macOS Keychain — no API key required.",
   "Author": "Narlei Moreira",
-  "Version": "1.0.9",
+  "Version": "1.1.0",
   "Icon": "resources/icon.png",
   "Category": "Claude Code",
   "CategoryIcon": "resources/icon.png",

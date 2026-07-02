@@ -1,7 +1,10 @@
 import { spawn } from 'child_process';
+import { createHash } from 'crypto';
 import os from 'os';
+import path from 'path';
 
-const KEYCHAIN_SERVICE = 'Claude Code-credentials';
+const KEYCHAIN_SERVICE_BASE = 'Claude Code-credentials';
+const DEFAULT_CONFIG_DIR = path.join(os.homedir(), '.claude');
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const FETCH_TIMEOUT_MS = 15_000;
 const API_HEADERS = {
@@ -24,11 +27,32 @@ export const ErrorKind = Object.freeze({
   UNKNOWN: 'UNKNOWN',
 });
 
-function runSecurity() {
+// Resolve a user-provided config-dir setting to an absolute path.
+// Empty/undefined → the default ~/.claude. Supports a leading "~".
+function resolveConfigDir(dir) {
+  if (!dir || typeof dir !== 'string' || !dir.trim()) return DEFAULT_CONFIG_DIR;
+  let d = dir.trim();
+  if (d === '~') d = os.homedir();
+  else if (d.startsWith('~/')) d = path.join(os.homedir(), d.slice(2));
+  return path.resolve(d);
+}
+
+// Claude Code stores its OAuth token in the macOS Keychain under
+// "Claude Code-credentials" for the default config dir, and appends a
+// "-<first 8 hex of sha256(absoluteConfigDirPath)>" suffix for any custom
+// CLAUDE_CONFIG_DIR. Mirror that so each instance reads its own token.
+export function keychainServiceForConfigDir(dir) {
+  const abs = resolveConfigDir(dir);
+  if (abs === DEFAULT_CONFIG_DIR) return KEYCHAIN_SERVICE_BASE;
+  const suffix = createHash('sha256').update(abs).digest('hex').slice(0, 8);
+  return `${KEYCHAIN_SERVICE_BASE}-${suffix}`;
+}
+
+function runSecurity(service) {
   return new Promise((resolve) => {
     const args = [
       'find-generic-password',
-      '-s', KEYCHAIN_SERVICE,
+      '-s', service,
       '-a', os.userInfo().username,
       '-w',
     ];
@@ -52,8 +76,8 @@ function extractAccessToken(raw) {
   }
 }
 
-async function readToken() {
-  const r = await runSecurity();
+async function readToken(configDir) {
+  const r = await runSecurity(keychainServiceForConfigDir(configDir));
   if (r.code !== 0) return null;
   return extractAccessToken(r.out);
 }
@@ -73,36 +97,40 @@ function epoch(v) {
 // The cap causes the CLI to abort BEFORE actually consuming tokens, but the OAuth
 // refresh has already run by then — so the keychain entry is updated for free.
 const REFRESH_COOLDOWN_MS = 5 * 60 * 1000;
-let _lastRefreshAttempt = 0;
+// Track the last refresh attempt per resolved config dir, so a refresh for one
+// instance doesn't reset another instance's cooldown.
+const _lastRefreshAttempt = new Map();
 
 const CLAUDE_CANDIDATES = ['/opt/homebrew/bin/claude', '/usr/local/bin/claude', 'claude'];
 
-function spawnClaude(bin) {
+function spawnClaude(bin, configDir) {
   return new Promise((resolve) => {
     const p = spawn(bin, ['-p', 'hi', '--max-budget-usd', '0.01'], {
       stdio: ['ignore', 'ignore', 'ignore'],
       timeout: 20_000,
+      env: { ...process.env, CLAUDE_CONFIG_DIR: resolveConfigDir(configDir) },
     });
     p.on('close', () => resolve(true));
     p.on('error', () => resolve(false));
   });
 }
 
-async function attemptCliRefresh(force = false) {
+async function attemptCliRefresh(configDir, force = false) {
+  const key = resolveConfigDir(configDir);
   const now = Date.now();
-  if (!force && now - _lastRefreshAttempt < REFRESH_COOLDOWN_MS) {
+  if (!force && now - (_lastRefreshAttempt.get(key) || 0) < REFRESH_COOLDOWN_MS) {
     return false;
   }
-  _lastRefreshAttempt = now;
+  _lastRefreshAttempt.set(key, now);
   for (const bin of CLAUDE_CANDIDATES) {
-    const ok = await spawnClaude(bin);
+    const ok = await spawnClaude(bin, configDir);
     if (ok) return true;
   }
   return false;
 }
 
-export async function fetchUsage({ signal, _retried, force } = {}) {
-  const token = await readToken();
+export async function fetchUsage({ signal, _retried, force, configDir } = {}) {
+  const token = await readToken(configDir);
   if (!token) {
     return { ok: false, kind: ErrorKind.NO_TOKEN, message: 'No Claude Code credentials in keychain' };
   }
@@ -133,9 +161,9 @@ export async function fetchUsage({ signal, _retried, force } = {}) {
 
   if (resp.status === 401 || resp.status === 403) {
     if (!_retried) {
-      const refreshed = await attemptCliRefresh(force);
+      const refreshed = await attemptCliRefresh(configDir, force);
       if (refreshed) {
-        return fetchUsage({ signal, _retried: true });
+        return fetchUsage({ signal, _retried: true, configDir });
       }
     }
     return { ok: false, kind: ErrorKind.AUTH, message: `HTTP ${resp.status}` };

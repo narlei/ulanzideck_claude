@@ -12,10 +12,12 @@
     }
   ],
   "Localization": {
-    "setupRequired": "需要设置",
-    "keychainInfo": "此插件从存储在 macOS 钥匙串中的 Claude Code CLI 凭证读取用量。",
-    "installCli": "安装 CLI：<code>brew install claude-code</code>",
-    "signIn": "登录一次：<code>claude auth login</code>",
+    "instanceLabel": "实例",
+    "instanceDefault": "默认 (~/.claude)",
+    "instanceCustom": "自定义配置目录…",
+    "configDirLabel": "配置目录",
+    "captionLabel": "标题",
+    "captionHint": "标题会显示在按钮上指标旁边。将配置目录留空以使用默认账户。",
     "tokenRefresh": "令牌过期时会自动刷新。点击按钮可强制刷新。"
   }
 }

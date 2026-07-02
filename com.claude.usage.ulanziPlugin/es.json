@@ -12,10 +12,12 @@
     }
   ],
   "Localization": {
-    "setupRequired": "Configuración necesaria",
-    "keychainInfo": "Este plugin lee el uso desde las credenciales de la CLI de Claude Code almacenadas en el Llavero de macOS.",
-    "installCli": "Instala la CLI: <code>brew install claude-code</code>",
-    "signIn": "Inicia sesión una vez: <code>claude auth login</code>",
+    "instanceLabel": "Instancia",
+    "instanceDefault": "Predeterminada (~/.claude)",
+    "instanceCustom": "Directorio de configuración personalizado…",
+    "configDirLabel": "Directorio de configuración",
+    "captionLabel": "Título",
+    "captionHint": "El título se muestra en el botón junto a la métrica. Deja el directorio de configuración vacío para usar la cuenta predeterminada.",
     "tokenRefresh": "El token se renueva automáticamente cuando caduca. Pulsa el botón para forzar una actualización."
   }
 }

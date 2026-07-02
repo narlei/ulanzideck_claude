@@ -1,6 +1,6 @@
 {
   "name": "claude-code-usage",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Ulanzi Deck plugin that displays your Claude Code subscription usage (5-hour rolling and weekly limits) on a button.",
   "author": "Narlei Moreira",
   "license": "MIT",

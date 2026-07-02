@@ -10,9 +10,9 @@ import {
   renderError,
 } from './renderer.js';
 
-const PLUGIN_UUID = 'com.narlei.claudeusage.plugin';
-const ACTION_5H = 'com.narlei.claudeusage.plugin.fivehour';
-const ACTION_7D = 'com.narlei.claudeusage.plugin.weekly';
+const PLUGIN_UUID = 'com.narlei.claudeusage.multi.plugin';
+const ACTION_5H = 'com.narlei.claudeusage.multi.plugin.fivehour';
+const ACTION_7D = 'com.narlei.claudeusage.multi.plugin.weekly';
 const POLL_INTERVAL_MS = 5 * 60 * 1000;
 const STALE_THRESHOLD_SEC = 90;
 
@@ -32,8 +32,16 @@ function metricFromContext(context, settings) {
   return actionFromContext(context) === ACTION_7D ? '7d' : '5h';
 }
 
-function labelFor(metric) {
+function metricLabel(metric) {
   return metric === '7d' ? 'Weekly' : '5h';
+}
+
+// The label drawn on the button. If the user set a custom instance label
+// (e.g. "mine"), show "<label> <metric>"; otherwise just the metric.
+function labelFor(inst) {
+  const metric = inst.metric;
+  const custom = (inst.settings?.label || '').trim();
+  return custom ? `${custom} ${metricLabel(metric)}` : metricLabel(metric);
 }
 
 function pushIcon(context, dataUrl) {
@@ -47,7 +55,7 @@ function applyResult(inst, result) {
 
 function renderForInstance(inst) {
   const { context, metric, lastResult } = inst;
-  const label = labelFor(metric);
+  const label = labelFor(inst);
 
   if (!lastResult) {
     pushIcon(context, renderLoading({ label }));
@@ -107,7 +115,7 @@ async function refresh(inst, { force = false } = {}) {
   if (inst.inflight) return;
   inst.inflight = true;
   try {
-    const result = await fetchUsage({ force });
+    const result = await fetchUsage({ force, configDir: inst.settings?.configDir });
     if (result.ok) inst.lastGood = result;
     applyResult(inst, result);
   } catch (e) {
@@ -152,9 +160,27 @@ function ensureInstance(context, settings) {
     startPolling(inst);
   } else {
     const prevMetric = inst.metric;
+    const prevConfigDir = inst.settings?.configDir || '';
+    const prevLabel = inst.settings?.label || '';
     inst.metric = metric;
-    inst.settings = settings || inst.settings;
-    if (prevMetric !== metric) renderForInstance(inst);
+    // The deck re-issues add/param events (e.g. on click) sometimes with an
+    // empty param. Only adopt incoming settings when they actually carry our
+    // keys, otherwise keep what we already have — else a stray {} wipes config.
+    if (settings && (('configDir' in settings) || ('label' in settings))) {
+      inst.settings = settings;
+    }
+    const nextConfigDir = inst.settings?.configDir || '';
+    const nextLabel = inst.settings?.label || '';
+    if (prevConfigDir !== nextConfigDir) {
+      // Switched to a different Claude account — the cached usage belongs to the
+      // old one, so drop it and refetch against the new keychain entry.
+      inst.lastGood = null;
+      inst.lastResult = null;
+      renderForInstance(inst);
+      refresh(inst, { force: true });
+    } else if (prevMetric !== metric || prevLabel !== nextLabel) {
+      renderForInstance(inst);
+    }
   }
   return inst;
 }
@@ -185,7 +211,7 @@ $UD.onRun((msg) => {
     return;
   }
   log('click → force refresh', msg.context);
-  pushIcon(msg.context, renderLoading({ label: labelFor(inst.metric) }));
+  pushIcon(msg.context, renderLoading({ label: labelFor(inst) }));
   refresh(inst, { force: true });
 });
 
