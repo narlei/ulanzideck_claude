@@ -1,10 +1,8 @@
 ## What's new?
 
-- **Multilingual support.** The property inspector now displays in your system language. Supported languages: English, 简体中文, 繁體中文, 日本語, 한국어, Deutsch, Français, Español, and Português (Brasil). Falls back to English for unsupported locales.
+- **Clearer reset time when a limit is reached.** When a key is stopped at 100%, it now shows the exact reset time as `Reset at HH:mm` instead of a countdown like `Reset in 3h`.
 
-## 1.0.3
 
-- **Fixed the Weekly Limit display during rate limiting.** When Claude returns a 429, only the metric that was actually rejected now shows the "stopped" state — the other key keeps showing its real utilization and reset countdown instead of going blank.
 
 ## Installation
 

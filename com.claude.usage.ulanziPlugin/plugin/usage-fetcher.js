@@ -176,3 +176,12 @@ export function formatReset(epochSec) {
   const d = Math.round(diff / 86400);
   return `${d}d`;
 }
+
+export function formatResetAt(epochSec) {
+  if (!epochSec) return '';
+  const date = new Date(epochSec * 1000);
+  if (Number.isNaN(date.getTime())) return '';
+  const hh = String(date.getHours()).padStart(2, '0');
+  const mm = String(date.getMinutes()).padStart(2, '0');
+  return `${hh}:${mm}`;
+}
