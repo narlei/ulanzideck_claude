@@ -1,6 +1,6 @@
 ## What's new?
 
-- **Clearer reset time when a limit is reached.** When a key is stopped at 100%, it now shows the exact reset time as `Reset at HH:mm` instead of a countdown like `Reset in 3h`.
+- **Clearer reset time when a limit is reached.** When a key is stopped at 100%, it shows `Reset at HH:mm` for resets within the next 24 hours, then keeps the countdown format (`Reset in 26h`, `Reset in 2d`) for longer waits.
 
 
 
