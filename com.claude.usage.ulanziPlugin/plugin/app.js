@@ -10,9 +10,9 @@ import {
   renderError,
 } from './renderer.js';
 
-const PLUGIN_UUID = 'com.narlei.claudeusage.multi.plugin';
-const ACTION_5H = 'com.narlei.claudeusage.multi.plugin.fivehour';
-const ACTION_7D = 'com.narlei.claudeusage.multi.plugin.weekly';
+const PLUGIN_UUID = 'com.narlei.claudeusage.plugin';
+const ACTION_5H = 'com.narlei.claudeusage.plugin.fivehour';
+const ACTION_7D = 'com.narlei.claudeusage.plugin.weekly';
 const POLL_INTERVAL_MS = 5 * 60 * 1000;
 const STALE_THRESHOLD_SEC = 90;
 
