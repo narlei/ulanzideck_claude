@@ -4,6 +4,8 @@
 
 # Claude Code Usage Plugin for Ulanzi Deck
 
+[![Available on Ulanzi Community Store](https://raw.githubusercontent.com/narlei/ulanzicommunitystore/main/docs/badges/ulanzi-community-store.svg)](https://ulanzicommunitystore.narlei.com)
+
 Display your Claude Code subscription usage directly on your Ulanzi Deck.
 
 ![Ulanzi Deck preview](resources/banner2.png)
