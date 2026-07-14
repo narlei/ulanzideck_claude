@@ -6,7 +6,7 @@
 
 Display your Claude Code subscription usage directly on your Ulanzi Deck.
 
-![Ulanzi Deck preview](resources/banner1.png)
+![Ulanzi Deck preview](resources/banner2.png)
 
 ## Features
 
