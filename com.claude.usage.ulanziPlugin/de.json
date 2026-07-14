@@ -16,8 +16,11 @@
     "instanceDefault": "Standard (~/.claude)",
     "instanceCustom": "Eigenes Konfigurationsverzeichnis…",
     "configDirLabel": "Konfigurationsverzeichnis",
-    "captionLabel": "Beschriftung",
-    "captionHint": "Die Beschriftung wird auf der Taste neben dem Messwert angezeigt. Lass das Konfigurationsverzeichnis leer, um das Standardkonto zu verwenden.",
+    "colorModeLabel": "Akzentfarbe",
+    "colorModeNone": "Keine",
+    "colorModeCustom": "Benutzerdefiniert…",
+    "colorLabel": "Farbe",
+    "colorHint": "Zeichnet einen dünnen farbigen Streifen am oberen Rand der Taste, damit du Instanzen auf einen Blick unterscheiden kannst.",
     "tokenRefresh": "Das Token wird bei Ablauf automatisch erneuert. Klicke auf die Taste, um eine Aktualisierung zu erzwingen."
   }
 }

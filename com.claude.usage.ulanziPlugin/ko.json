@@ -16,8 +16,11 @@
     "instanceDefault": "기본값 (~/.claude)",
     "instanceCustom": "사용자 지정 설정 디렉터리…",
     "configDirLabel": "설정 디렉터리",
-    "captionLabel": "캡션",
-    "captionHint": "캡션은 버튼의 측정값 옆에 표시됩니다. 기본 계정을 사용하려면 설정 디렉터리를 비워 두세요.",
+    "colorModeLabel": "강조 색상",
+    "colorModeNone": "없음",
+    "colorModeCustom": "사용자 지정…",
+    "colorLabel": "색상",
+    "colorHint": "버튼 상단에 얇은 색상 줄무늬를 표시하여 인스턴스를 한눈에 구분할 수 있습니다.",
     "tokenRefresh": "토큰이 만료되면 자동으로 갱신됩니다. 버튼을 클릭하면 강제로 새로 고칩니다."
   }
 }

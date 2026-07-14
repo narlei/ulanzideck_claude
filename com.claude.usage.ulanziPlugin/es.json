@@ -16,8 +16,11 @@
     "instanceDefault": "Predeterminada (~/.claude)",
     "instanceCustom": "Directorio de configuración personalizado…",
     "configDirLabel": "Directorio de configuración",
-    "captionLabel": "Título",
-    "captionHint": "El título se muestra en el botón junto a la métrica. Deja el directorio de configuración vacío para usar la cuenta predeterminada.",
+    "colorModeLabel": "Color de acento",
+    "colorModeNone": "Ninguno",
+    "colorModeCustom": "Personalizado…",
+    "colorLabel": "Color",
+    "colorHint": "Dibuja una fina franja de color en la parte superior del botón para que puedas distinguir las instancias de un vistazo.",
     "tokenRefresh": "El token se renueva automáticamente cuando caduca. Pulsa el botón para forzar una actualización."
   }
 }

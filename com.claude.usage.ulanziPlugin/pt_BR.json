@@ -16,8 +16,11 @@
     "instanceDefault": "Padrão (~/.claude)",
     "instanceCustom": "Diretório de configuração personalizado…",
     "configDirLabel": "Diretório de configuração",
-    "captionLabel": "Legenda",
-    "captionHint": "A legenda é exibida no botão ao lado da métrica. Deixe o diretório de configuração vazio para usar a conta padrão.",
+    "colorModeLabel": "Cor de destaque",
+    "colorModeNone": "Nenhuma",
+    "colorModeCustom": "Personalizada…",
+    "colorLabel": "Cor",
+    "colorHint": "Desenha uma faixa colorida fina no topo do botão para você distinguir as instâncias rapidamente.",
     "tokenRefresh": "O token é renovado automaticamente quando expira. Clique no botão para forçar uma atualização."
   }
 }

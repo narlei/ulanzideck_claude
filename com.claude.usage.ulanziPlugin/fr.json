@@ -16,8 +16,11 @@
     "instanceDefault": "Par défaut (~/.claude)",
     "instanceCustom": "Dossier de configuration personnalisé…",
     "configDirLabel": "Dossier de configuration",
-    "captionLabel": "Libellé",
-    "captionHint": "Le libellé est affiché sur le bouton à côté de la métrique. Laissez le dossier de configuration vide pour utiliser le compte par défaut.",
+    "colorModeLabel": "Couleur d'accent",
+    "colorModeNone": "Aucune",
+    "colorModeCustom": "Personnalisée…",
+    "colorLabel": "Couleur",
+    "colorHint": "Affiche une fine bande colorée en haut du bouton pour distinguer les instances en un coup d'œil.",
     "tokenRefresh": "Le jeton est renouvelé automatiquement à son expiration. Cliquez sur le bouton pour forcer une actualisation."
   }
 }

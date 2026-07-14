@@ -16,8 +16,11 @@
     "instanceDefault": "Default (~/.claude)",
     "instanceCustom": "Custom config dir…",
     "configDirLabel": "Config dir",
-    "captionLabel": "Caption",
-    "captionHint": "The caption is drawn on the button next to the metric. Leave the config dir empty to use the default account.",
+    "colorModeLabel": "Accent color",
+    "colorModeNone": "None",
+    "colorModeCustom": "Custom…",
+    "colorLabel": "Color",
+    "colorHint": "Draws a thin colored stripe across the top of the button so you can tell instances apart at a glance.",
     "tokenRefresh": "The token refreshes automatically when it expires. Click the button to force a refresh."
   }
 }

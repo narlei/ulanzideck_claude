@@ -33,13 +33,20 @@
       </div>
 
       <div class="uspi-item">
-        <div class="uspi-item-label" data-localize="captionLabel">Caption</div>
-        <input class="uspi-item-value" type="text" name="label" id="label"
-               maxlength="12" placeholder="mine" />
+        <div class="uspi-item-label" data-localize="colorModeLabel">Accent color</div>
+        <select class="uspi-item-value" name="colorMode" id="colorMode">
+          <option value="none" data-localize="colorModeNone">None</option>
+          <option value="custom" data-localize="colorModeCustom">Custom…</option>
+        </select>
+      </div>
+
+      <div class="uspi-item" id="colorRow" style="display:none;">
+        <div class="uspi-item-label" data-localize="colorLabel">Color</div>
+        <input class="uspi-item-value" type="color" name="color" id="color" value="#d77757" />
       </div>
 
       <div class="panel">
-        <p class="muted" data-localize="captionHint">The caption is drawn on the button next to the metric. Leave the config dir empty to use the default account.</p>
+        <p class="muted" data-localize="colorHint">Draws a thin colored stripe across the top of the button so you can tell instances apart at a glance.</p>
         <p class="muted" data-localize="tokenRefresh">The token refreshes automatically when it expires. Click the button to force a refresh.</p>
       </div>
     </form>

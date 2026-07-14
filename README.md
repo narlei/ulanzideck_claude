@@ -15,7 +15,7 @@ Display your Claude Code subscription usage directly on your Ulanzi Deck — for
 - **5-Hour Rolling Limit** - Shows your current usage in the 5-hour window
 - **Weekly Limit** - Shows your total usage across all Claude models for the week
 - **Multiple instances** - Point each button at a different Claude Code config dir and read that account's usage independently
-- **Custom caption** - Label each button (e.g. `mine`, `work`) so you can tell instances apart at a glance
+- **Accent color** - Give each button a thin colored stripe across the top so you can tell instances apart at a glance
 - Real-time updates from Claude Code API
 - Color-coded thresholds and reset countdown on the button
 
@@ -25,7 +25,7 @@ Each button has two settings in its Property Inspector:
 
 - **Instance** — `Default (~/.claude)` or `Custom config dir…`. Pick *Custom* to enter a path.
 - **Config dir** — the `CLAUDE_CONFIG_DIR` of the account, e.g. `~/.claude-mine`. Leave blank for the default account.
-- **Caption** — a short label drawn on the button next to the metric (e.g. `mine 5h`).
+- **Accent color** — `None` or `Custom…`. Pick *Custom* and choose a color to draw a thin stripe across the top of the button.
 
 Under the hood, Claude Code stores each account's OAuth token in the macOS Keychain under `Claude Code-credentials` for the default config dir, and `Claude Code-credentials-<hash>` (first 8 hex of `sha256(absolute config dir path)`) for a custom `CLAUDE_CONFIG_DIR`. The plugin computes that service name from the config dir you enter and reads the matching token — no extra setup required.
 

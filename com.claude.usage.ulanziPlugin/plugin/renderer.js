@@ -49,6 +49,18 @@ function staleDot(staleSec) {
   return `<circle cx="${SIZE - 16}" cy="16" r="6" fill="#e3b341" stroke="#1f1f23" stroke-width="2"/>`;
 }
 
+// A thin accent stripe across the top of the button — spans edge to edge,
+// ~4px tall at the device's typical icon size — so instances with a custom
+// color set are recognizable at a glance without cluttering the button with
+// text. Drawn last (on top of everything else) by every render* function.
+const STRIPE_HEIGHT = 8;
+const HEX_COLOR_RE = /^#[0-9a-fA-F]{6}$/;
+
+function colorStripe(color) {
+  if (!color || !HEX_COLOR_RE.test(color)) return '';
+  return `<rect x="0" y="0" width="${SIZE}" height="${STRIPE_HEIGHT}" fill="${color}"/>`;
+}
+
 const CLAUDE_ORANGE = '#d77757';
 
 const CLAUDE_PIXEL_GRID = [
@@ -96,8 +108,8 @@ function topLabelWithIcon(label, y, fontSize) {
   return claudeIcon(iconCx, iconCy, iconWidth) + textWithShadow(label, textX, y, fontSize, '700', 'start');
 }
 
-export function renderUsage({ label, util, reset, stale }) {
-  const color = thresholdColor(util);
+export function renderUsage({ label, util, reset, stale, color }) {
+  const threshold = thresholdColor(util);
   const fillRatio = Math.max(util, MIN_BAR_RATIO);
   const barW = Math.round(SIZE * fillRatio);
   const pctText = `${Math.round(util * 100)}%`;
@@ -106,54 +118,57 @@ export function renderUsage({ label, util, reset, stale }) {
   const body = [
     `<rect x="0" y="0" width="${SIZE}" height="${SIZE}" fill="${BG}"/>`,
     `<rect x="0" y="0" width="${SIZE}" height="${SIZE}" fill="${TRACK}"/>`,
-    `<rect x="0" y="0" width="${barW}" height="${SIZE}" fill="${color.fill}"/>`,
+    `<rect x="0" y="0" width="${barW}" height="${SIZE}" fill="${threshold.fill}"/>`,
     topLabelWithIcon(label, 50, 38),
     textWithShadow(pctText, SIZE / 2, 122, 52),
     resetText ? textWithShadow(`Reset in ${resetText}`, SIZE / 2, 178, 28, '600') : '',
     staleDot(stale),
+    colorStripe(color),
   ].join('');
 
   return toDataUrl(svgDoc(body));
 }
 
-export function renderStopped({ label, reset }) {
+export function renderStopped({ label, reset, color }) {
   const body = [
     `<rect x="0" y="0" width="${SIZE}" height="${SIZE}" fill="${COLORS.crit.fill}"/>`,
     topLabelWithIcon(label, 50, 38),
     textWithShadow('100%', SIZE / 2, 118, 52),
     textWithShadow('stopped', SIZE / 2, 152, 22, '600'),
     reset ? textWithShadow(reset, SIZE / 2, 184, 26, '600') : '',
+    colorStripe(color),
   ].join('');
   return toDataUrl(svgDoc(body));
 }
 
-function renderNeutral({ icon, line1, line2, accent }) {
+function renderNeutral({ icon, line1, line2, accent, color }) {
   const accentColor = accent || COLORS.muted.fill;
   const body = [
     `<rect x="0" y="0" width="${SIZE}" height="${SIZE}" fill="${BG}"/>`,
     icon ? `<text x="${SIZE / 2}" y="92" font-size="68" text-anchor="middle" fill="${accentColor}">${escapeXml(icon)}</text>` : '',
     line1 ? textWithShadow(line1, SIZE / 2, 140, 28, '700') : '',
     line2 ? textWithShadow(line2, SIZE / 2, 174, 22, '600') : '',
+    colorStripe(color),
   ].join('');
   return toDataUrl(svgDoc(body));
 }
 
-export function renderNoToken({ label }) {
-  return renderNeutral({ icon: '\u{1F512}', line1: label, line2: 'Login Claude' });
+export function renderNoToken({ label, color }) {
+  return renderNeutral({ icon: '\u{1F512}', line1: label, line2: 'Login Claude', color });
 }
 
-export function renderReauth({ label }) {
-  return renderNeutral({ icon: '↻', line1: label, line2: 'Reauth', accent: '#e3b341' });
+export function renderReauth({ label, color }) {
+  return renderNeutral({ icon: '↻', line1: label, line2: 'Reauth', accent: '#e3b341', color });
 }
 
-export function renderKeychainBlocked({ label }) {
-  return renderNeutral({ icon: '\u{1F511}', line1: label, line2: 'Allow keychain' });
+export function renderKeychainBlocked({ label, color }) {
+  return renderNeutral({ icon: '\u{1F511}', line1: label, line2: 'Allow keychain', color });
 }
 
-export function renderLoading({ label }) {
-  return renderNeutral({ icon: '…', line1: label, line2: '' });
+export function renderLoading({ label, color }) {
+  return renderNeutral({ icon: '…', line1: label, line2: '', color });
 }
 
-export function renderError({ label, msg }) {
-  return renderNeutral({ icon: '⚠', line1: label, line2: msg || 'error', accent: '#e3b341' });
+export function renderError({ label, msg, color }) {
+  return renderNeutral({ icon: '⚠', line1: label, line2: msg || 'error', accent: '#e3b341', color });
 }

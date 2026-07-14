@@ -16,8 +16,11 @@
     "instanceDefault": "デフォルト (~/.claude)",
     "instanceCustom": "カスタム設定ディレクトリ…",
     "configDirLabel": "設定ディレクトリ",
-    "captionLabel": "キャプション",
-    "captionHint": "キャプションはボタンの測定値の横に表示されます。デフォルトのアカウントを使用するには、設定ディレクトリを空のままにしてください。",
+    "colorModeLabel": "アクセントカラー",
+    "colorModeNone": "なし",
+    "colorModeCustom": "カスタム…",
+    "colorLabel": "色",
+    "colorHint": "ボタン上部に細い色のストライプを表示し、インスタンスを一目で見分けられるようにします。",
     "tokenRefresh": "トークンは期限切れ時に自動的に更新されます。ボタンをクリックすると強制的に更新できます。"
   }
 }
