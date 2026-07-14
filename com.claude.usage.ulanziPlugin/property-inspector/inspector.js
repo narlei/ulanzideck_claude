@@ -1,5 +1,11 @@
 let settings = {};
 let loaded = false;
+// The last { configDir, label } this PI itself sent via setSettings. The deck
+// echoes every setSettings call back through didReceiveSettings, so we use
+// this to recognize our own echo and skip re-populating the form from it —
+// otherwise an echo arriving while the user is still typing resets the field
+// mid-keystroke, discarding whatever was typed since the debounced save.
+let lastSent = null;
 
 const form = document.getElementById('property-inspector');
 const instanceEl = document.getElementById('instance');
@@ -26,9 +32,13 @@ function toggleConfigDirRow() {
 
 function populate() {
   const dir = (settings.configDir || '').trim();
-  instanceEl.value = dir ? 'custom' : 'default';
-  configDirEl.value = dir;
-  labelEl.value = settings.label || '';
+  const active = document.activeElement;
+  // Never overwrite a field the user is actively typing into — a remote
+  // update (e.g. a delayed/out-of-order settings echo) landing mid-edit
+  // would otherwise wipe out keystrokes the user hasn't saved yet.
+  if (active !== instanceEl) instanceEl.value = dir ? 'custom' : 'default';
+  if (active !== configDirEl) configDirEl.value = dir;
+  if (active !== labelEl) labelEl.value = settings.label || '';
   toggleConfigDirRow();
 }
 
@@ -43,6 +53,7 @@ function save() {
     configDir: isCustom ? configDirEl.value.trim() : '',
     label: labelEl.value.trim(),
   };
+  lastSent = { configDir: settings.configDir, label: settings.label };
   $UD.setSettings(settings);
 }
 
@@ -70,9 +81,15 @@ $UD.onConnected(() => {
 $UD.onDidReceiveSettings((msg) => {
   const p = msg && (msg.param || msg.settings);
   if (p && (('configDir' in p) || ('label' in p))) {
+    const isSelfEcho = loaded && lastSent
+      && (p.configDir || '') === lastSent.configDir
+      && (p.label || '') === lastSent.label;
     settings = p;
     loaded = true;
-    populate();
+    // Skip re-populating on our own echo — the form already reflects this
+    // value (or something newer the user typed since), so writing it back
+    // would only reset the input under the user's cursor.
+    if (!isSelfEcho) populate();
   } else {
     // No saved settings yet (fresh button) — allow saving from now on.
     loaded = true;
