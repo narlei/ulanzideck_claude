@@ -1,5 +1,5 @@
 import UlanziApi from './plugin-common-node/index.js';
-import { fetchUsage, formatReset, formatStoppedReset, ErrorKind } from './usage-fetcher.js';
+import { fetchUsage, formatReset, ErrorKind } from './usage-fetcher.js';
 import {
   renderUsage,
   renderStopped,
@@ -60,7 +60,7 @@ function renderForInstance(inst) {
     const reset = metric === '7d' ? data.reset7d : data.reset5h;
     const status = metric === '7d' ? data.status7d : data.status5h;
     if (status === 'rejected' || util === null || util === undefined) {
-      pushIcon(context, renderStopped({ label, reset: formatStoppedReset(reset) }));
+      pushIcon(context, renderStopped({ label, reset: formatReset(reset) }));
       return;
     }
     pushIcon(context, renderUsage({ label, util, reset: formatReset(reset) }));
@@ -83,7 +83,7 @@ function renderForInstance(inst) {
     const reset = data ? (metric === '7d' ? data.reset7d : data.reset5h) : null;
     const status = data ? (metric === '7d' ? data.status7d : data.status5h) : null;
     if (status === 'rejected' || util === null || util === undefined) {
-      pushIcon(context, renderStopped({ label, reset: formatStoppedReset(reset) }));
+      pushIcon(context, renderStopped({ label, reset: formatReset(reset) }));
     } else {
       pushIcon(context, renderUsage({ label, util, reset: formatReset(reset) }));
     }

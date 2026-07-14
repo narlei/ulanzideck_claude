@@ -122,7 +122,7 @@ export function renderStopped({ label, reset }) {
     topLabelWithIcon(label, 50, 38),
     textWithShadow('100%', SIZE / 2, 118, 52),
     textWithShadow('stopped', SIZE / 2, 152, 22, '600'),
-    reset ? textWithShadow(reset, SIZE / 2, 184, 26, '600') : '',
+    reset ? textWithShadow(`Reset in ${reset}`, SIZE / 2, 184, 26, '600') : '',
   ].join('');
   return toDataUrl(svgDoc(body));
 }

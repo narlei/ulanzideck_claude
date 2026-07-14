@@ -177,20 +177,3 @@ export function formatReset(epochSec) {
   return `${d}d`;
 }
 
-export function formatResetAt(epochSec) {
-  if (!epochSec) return '';
-  const date = new Date(epochSec * 1000);
-  if (Number.isNaN(date.getTime())) return '';
-  const hh = String(date.getHours()).padStart(2, '0');
-  const mm = String(date.getMinutes()).padStart(2, '0');
-  return `${hh}:${mm}`;
-}
-
-export function formatStoppedReset(epochSec) {
-  if (!epochSec) return '';
-  const diff = epochSec - Math.floor(Date.now() / 1000);
-  if (diff > 0 && diff <= 24 * 60 * 60) {
-    return `Reset at ${formatResetAt(epochSec)}`;
-  }
-  return `Reset in ${formatReset(epochSec)}`;
-}
