@@ -12,10 +12,15 @@
     }
   ],
   "Localization": {
-    "setupRequired": "설정 필요",
-    "keychainInfo": "이 플러그인은 macOS 키체인에 저장된 Claude Code CLI 자격 증명에서 사용량을 읽어옵니다.",
-    "installCli": "CLI 설치: <code>brew install claude-code</code>",
-    "signIn": "한 번 로그인: <code>claude auth login</code>",
+    "instanceLabel": "인스턴스",
+    "instanceDefault": "기본값 (~/.claude)",
+    "instanceCustom": "사용자 지정 설정 디렉터리…",
+    "configDirLabel": "설정 디렉터리",
+    "colorModeLabel": "강조 색상",
+    "colorModeNone": "없음",
+    "colorModeCustom": "사용자 지정…",
+    "colorLabel": "색상",
+    "colorHint": "버튼 상단에 얇은 색상 줄무늬를 표시하여 인스턴스를 한눈에 구분할 수 있습니다.",
     "tokenRefresh": "토큰이 만료되면 자동으로 갱신됩니다. 버튼을 클릭하면 강제로 새로 고칩니다."
   }
 }

@@ -12,10 +12,15 @@
     }
   ],
   "Localization": {
-    "setupRequired": "Einrichtung erforderlich",
-    "keychainInfo": "Dieses Plugin liest die Nutzung aus den Claude-Code-CLI-Anmeldedaten im macOS-Schlüsselbund.",
-    "installCli": "CLI installieren: <code>brew install claude-code</code>",
-    "signIn": "Einmal anmelden: <code>claude auth login</code>",
+    "instanceLabel": "Instanz",
+    "instanceDefault": "Standard (~/.claude)",
+    "instanceCustom": "Eigenes Konfigurationsverzeichnis…",
+    "configDirLabel": "Konfigurationsverzeichnis",
+    "colorModeLabel": "Akzentfarbe",
+    "colorModeNone": "Keine",
+    "colorModeCustom": "Benutzerdefiniert…",
+    "colorLabel": "Farbe",
+    "colorHint": "Zeichnet einen dünnen farbigen Streifen am oberen Rand der Taste, damit du Instanzen auf einen Blick unterscheiden kannst.",
     "tokenRefresh": "Das Token wird bei Ablauf automatisch erneuert. Klicke auf die Taste, um eine Aktualisierung zu erzwingen."
   }
 }

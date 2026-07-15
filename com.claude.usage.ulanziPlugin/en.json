@@ -12,10 +12,15 @@
     }
   ],
   "Localization": {
-    "setupRequired": "Setup required",
-    "keychainInfo": "This plugin reads usage from the Claude Code CLI credentials stored in your macOS Keychain.",
-    "installCli": "Install the CLI: <code>brew install claude-code</code>",
-    "signIn": "Sign in once: <code>claude auth login</code>",
+    "instanceLabel": "Instance",
+    "instanceDefault": "Default (~/.claude)",
+    "instanceCustom": "Custom config dir…",
+    "configDirLabel": "Config dir",
+    "colorModeLabel": "Accent color",
+    "colorModeNone": "None",
+    "colorModeCustom": "Custom…",
+    "colorLabel": "Color",
+    "colorHint": "Draws a thin colored stripe across the top of the button so you can tell instances apart at a glance.",
     "tokenRefresh": "The token refreshes automatically when it expires. Click the button to force a refresh."
   }
 }

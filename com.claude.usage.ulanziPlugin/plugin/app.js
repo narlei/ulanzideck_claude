@@ -32,8 +32,12 @@ function metricFromContext(context, settings) {
   return actionFromContext(context) === ACTION_7D ? '7d' : '5h';
 }
 
-function labelFor(metric) {
-  return metric === '7d' ? 'Weekly' : '5h';
+function labelFor(inst) {
+  return inst.metric === '7d' ? 'Weekly' : '5h';
+}
+
+function colorFor(inst) {
+  return inst.settings?.color || '';
 }
 
 function pushIcon(context, dataUrl) {
@@ -47,10 +51,11 @@ function applyResult(inst, result) {
 
 function renderForInstance(inst) {
   const { context, metric, lastResult } = inst;
-  const label = labelFor(metric);
+  const label = labelFor(inst);
+  const color = colorFor(inst);
 
   if (!lastResult) {
-    pushIcon(context, renderLoading({ label }));
+    pushIcon(context, renderLoading({ label, color }));
     return;
   }
 
@@ -60,19 +65,19 @@ function renderForInstance(inst) {
     const reset = metric === '7d' ? data.reset7d : data.reset5h;
     const status = metric === '7d' ? data.status7d : data.status5h;
     if (status === 'rejected' || util === null || util === undefined) {
-      pushIcon(context, renderStopped({ label, reset: formatReset(reset) }));
+      pushIcon(context, renderStopped({ label, reset: formatReset(reset), color }));
       return;
     }
-    pushIcon(context, renderUsage({ label, util, reset: formatReset(reset) }));
+    pushIcon(context, renderUsage({ label, util, reset: formatReset(reset), color }));
     return;
   }
 
   if (lastResult.kind === ErrorKind.NO_TOKEN) {
-    pushIcon(context, renderNoToken({ label }));
+    pushIcon(context, renderNoToken({ label, color }));
     return;
   }
   if (lastResult.kind === ErrorKind.AUTH) {
-    pushIcon(context, renderReauth({ label }));
+    pushIcon(context, renderReauth({ label, color }));
     return;
   }
   if (lastResult.kind === ErrorKind.RATE_LIMITED) {
@@ -83,9 +88,9 @@ function renderForInstance(inst) {
     const reset = data ? (metric === '7d' ? data.reset7d : data.reset5h) : null;
     const status = data ? (metric === '7d' ? data.status7d : data.status5h) : null;
     if (status === 'rejected' || util === null || util === undefined) {
-      pushIcon(context, renderStopped({ label, reset: formatReset(reset) }));
+      pushIcon(context, renderStopped({ label, reset: formatReset(reset), color }));
     } else {
-      pushIcon(context, renderUsage({ label, util, reset: formatReset(reset) }));
+      pushIcon(context, renderUsage({ label, util, reset: formatReset(reset), color }));
     }
     return;
   }
@@ -96,18 +101,18 @@ function renderForInstance(inst) {
     const util = metric === '7d' ? data.util7d : data.util5h;
     const reset = metric === '7d' ? data.reset7d : data.reset5h;
     const stale = Math.floor(Date.now() / 1000) - data.fetchedAt;
-    pushIcon(context, renderUsage({ label, util, reset: formatReset(reset), stale }));
+    pushIcon(context, renderUsage({ label, util, reset: formatReset(reset), stale, color }));
     return;
   }
 
-  pushIcon(context, renderError({ label, msg: 'no data' }));
+  pushIcon(context, renderError({ label, msg: 'no data', color }));
 }
 
 async function refresh(inst, { force = false } = {}) {
   if (inst.inflight) return;
   inst.inflight = true;
   try {
-    const result = await fetchUsage({ force });
+    const result = await fetchUsage({ force, configDir: inst.settings?.configDir });
     if (result.ok) inst.lastGood = result;
     applyResult(inst, result);
   } catch (e) {
@@ -152,9 +157,27 @@ function ensureInstance(context, settings) {
     startPolling(inst);
   } else {
     const prevMetric = inst.metric;
+    const prevConfigDir = inst.settings?.configDir || '';
+    const prevColor = inst.settings?.color || '';
     inst.metric = metric;
-    inst.settings = settings || inst.settings;
-    if (prevMetric !== metric) renderForInstance(inst);
+    // The deck re-issues add/param events (e.g. on click) sometimes with an
+    // empty param. Only adopt incoming settings when they actually carry our
+    // keys, otherwise keep what we already have — else a stray {} wipes config.
+    if (settings && (('configDir' in settings) || ('color' in settings))) {
+      inst.settings = settings;
+    }
+    const nextConfigDir = inst.settings?.configDir || '';
+    const nextColor = inst.settings?.color || '';
+    if (prevConfigDir !== nextConfigDir) {
+      // Switched to a different Claude account — the cached usage belongs to the
+      // old one, so drop it and refetch against the new keychain entry.
+      inst.lastGood = null;
+      inst.lastResult = null;
+      renderForInstance(inst);
+      refresh(inst, { force: true });
+    } else if (prevMetric !== metric || prevColor !== nextColor) {
+      renderForInstance(inst);
+    }
   }
   return inst;
 }
@@ -178,6 +201,15 @@ $UD.onParamFromPlugin((msg) => {
   renderForInstance(inst);
 });
 
+// The Property Inspector's setSettings() call is delivered here, not through
+// paramFromApp/paramFromPlugin — without this listener, edits made in the PI
+// (config dir, accent color) never reach the running instance on this side.
+$UD.onDidReceiveSettings((msg) => {
+  log('didReceiveSettings', msg.context, msg.settings || msg.param);
+  const settings = msg.settings || msg.param || {};
+  ensureInstance(msg.context, settings);
+});
+
 $UD.onRun((msg) => {
   const inst = INSTANCES.get(msg.context);
   if (!inst) {
@@ -185,7 +217,7 @@ $UD.onRun((msg) => {
     return;
   }
   log('click → force refresh', msg.context);
-  pushIcon(msg.context, renderLoading({ label: labelFor(inst.metric) }));
+  pushIcon(msg.context, renderLoading({ label: labelFor(inst), color: colorFor(inst) }));
   refresh(inst, { force: true });
 });
 

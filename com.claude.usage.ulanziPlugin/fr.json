@@ -12,10 +12,15 @@
     }
   ],
   "Localization": {
-    "setupRequired": "Configuration requise",
-    "keychainInfo": "Ce plugin lit l'utilisation à partir des identifiants de la CLI Claude Code stockés dans le trousseau macOS.",
-    "installCli": "Installez la CLI : <code>brew install claude-code</code>",
-    "signIn": "Connectez-vous une fois : <code>claude auth login</code>",
+    "instanceLabel": "Instance",
+    "instanceDefault": "Par défaut (~/.claude)",
+    "instanceCustom": "Dossier de configuration personnalisé…",
+    "configDirLabel": "Dossier de configuration",
+    "colorModeLabel": "Couleur d'accent",
+    "colorModeNone": "Aucune",
+    "colorModeCustom": "Personnalisée…",
+    "colorLabel": "Couleur",
+    "colorHint": "Affiche une fine bande colorée en haut du bouton pour distinguer les instances en un coup d'œil.",
     "tokenRefresh": "Le jeton est renouvelé automatiquement à son expiration. Cliquez sur le bouton pour forcer une actualisation."
   }
 }
