@@ -4,7 +4,7 @@
 
 # Claude Code Usage Plugin for Ulanzi Deck
 
-[![Available on Ulanzi Community Store](https://raw.githubusercontent.com/narlei/ulanzicommunitystore/main/docs/badges/ulanzi-community-store.svg)](https://ulanzicommunitystore.narlei.com)
+[![Available on Ulanzi Community Store](https://raw.githubusercontent.com/narlei/ulanzicommunitystore/main/docs/badges/ulanzi-community-store.svg)](https://ulanzicommunitystore.narlei.com/plugins/?plugin=narlei/ulanzideck_claude)
 
 Display your Claude Code subscription usage directly on your Ulanzi Deck — for **one or several** Claude Code accounts at once.
 
@@ -31,13 +31,7 @@ Under the hood, Claude Code stores each account's OAuth token in the macOS Keych
 
 ## Installation
 
-Download the latest `.zip` from the [GitHub Releases](https://github.com/narlei/ulanzidesk_claude/releases) page, extract it, and copy the `com.claude.usage.ulanziPlugin` folder to your Ulanzi Deck plugins directory:
-
-```
-~/Library/Application Support/Ulanzi/UlanziDeck/Plugins/
-```
-
-Then restart Ulanzi Deck and add the plugin buttons to your deck.
+Download the latest release from https://ulanzicommunitystore.narlei.com/plugins/?plugin=narlei/ulanzideck_claude
 
 ## Requirements
 
