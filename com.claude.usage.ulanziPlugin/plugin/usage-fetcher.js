@@ -101,14 +101,33 @@ const REFRESH_COOLDOWN_MS = 5 * 60 * 1000;
 // instance doesn't reset another instance's cooldown.
 const _lastRefreshAttempt = new Map();
 
-const CLAUDE_CANDIDATES = ['/opt/homebrew/bin/claude', '/usr/local/bin/claude', 'claude'];
+// The Ulanzi deck launches this plugin from the GUI, so it inherits a minimal
+// PATH that usually lacks the shell-profile additions where `claude` lives.
+// Probe the known absolute install locations explicitly before falling back to
+// a bare `claude` (which only resolves if it happens to be on the process PATH).
+const CLAUDE_CANDIDATES = [
+  path.join(os.homedir(), '.local/bin/claude'), // native installer (current default)
+  path.join(os.homedir(), '.claude/local/claude'), // legacy local install / migrate-installer
+  '/opt/homebrew/bin/claude', // Homebrew (Apple Silicon)
+  '/usr/local/bin/claude', // Homebrew (Intel) / npm global prefix
+  'claude', // last resort: rely on inherited PATH
+];
 
 function spawnClaude(bin, configDir) {
   return new Promise((resolve) => {
+    // Claude Code keys its keychain entry off whether CLAUDE_CONFIG_DIR is *set*,
+    // not off its value: setting it (even to the default ~/.claude) makes the CLI
+    // look for a hash-suffixed "Claude Code-credentials-<hash>" entry and report
+    // "Not logged in", so the OAuth refresh never runs. Only export it for a
+    // genuinely custom dir; for the default, leave it unset like a normal shell.
+    const resolved = resolveConfigDir(configDir);
+    const env = { ...process.env };
+    if (resolved === DEFAULT_CONFIG_DIR) delete env.CLAUDE_CONFIG_DIR;
+    else env.CLAUDE_CONFIG_DIR = resolved;
     const p = spawn(bin, ['-p', 'hi', '--max-budget-usd', '0.01'], {
       stdio: ['ignore', 'ignore', 'ignore'],
       timeout: 20_000,
-      env: { ...process.env, CLAUDE_CONFIG_DIR: resolveConfigDir(configDir) },
+      env,
     });
     p.on('close', () => resolve(true));
     p.on('error', () => resolve(false));
