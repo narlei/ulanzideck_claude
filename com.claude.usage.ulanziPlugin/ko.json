@@ -1,6 +1,6 @@
 {
   "Name": "Claude Code 사용량",
-  "Description": "Claude Code 구독 사용량을 실시간으로 모니터링합니다. 5시간 롤링 한도와 주간 한도(모든 모델)를 Ulanzi Deck 버튼에 바로 표시하며, 색상 임계값과 초기화 카운트다운을 제공합니다. 자격 증명은 macOS 키체인에서 안전하게 읽어오며 API 키가 필요 없습니다.",
+  "Description": "Claude Code 구독 사용량을 실시간으로 모니터링합니다. 5시간 롤링 한도와 주간 한도(모든 모델)를 Ulanzi Deck 버튼에 바로 표시하며, 색상 임계값과 초기화 카운트다운을 제공합니다. 자격 증명은 기존 Claude Code 로그인에서 읽어옵니다(macOS는 키체인, Windows는 ~/.claude/.credentials.json). API 키가 필요 없습니다.",
   "Actions": [
     {
       "Name": "5시간 한도",

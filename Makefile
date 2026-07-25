@@ -1,12 +1,19 @@
 PLUGIN_DIR    := com.claude.usage.ulanziPlugin
-INSTALL_BASE  := $(HOME)/Library/Application Support/Ulanzi/UlanziDeck/Plugins
-INSTALL_DIR   := $(INSTALL_BASE)/$(PLUGIN_DIR)
 DIST_DIR      := dist
 ZIP           := $(DIST_DIR)/$(PLUGIN_DIR).zip
 
 APP_NAME      := Ulanzi Studio
 
-.PHONY: help package install restart clean bump_major bump_minor bump_patch
+# The plugins folder lives in a different place per OS. On Windows these targets
+# expect a POSIX shell (Git Bash / MSYS2), which is what `make` runs under there.
+ifeq ($(OS),Windows_NT)
+INSTALL_BASE  := $(subst \,/,$(APPDATA))/Ulanzi/UlanziDeck/Plugins
+else
+INSTALL_BASE  := $(HOME)/Library/Application Support/Ulanzi/UlanziDeck/Plugins
+endif
+INSTALL_DIR   := $(INSTALL_BASE)/$(PLUGIN_DIR)
+
+.PHONY: help package install sync restart clean bump_major bump_minor bump_patch
 
 help:
 	@echo "Available targets:"
@@ -39,7 +46,11 @@ package: clean
 	@find $(PLUGIN_DIR) -name ".DS_Store" -delete
 	@echo "→ Building $(ZIP)..."
 	@mkdir -p $(DIST_DIR)
+ifeq ($(OS),Windows_NT)
+	@powershell -NoProfile -Command "Compress-Archive -Path '$(PLUGIN_DIR)' -DestinationPath '$(ZIP)' -Force"
+else
 	@zip -r -q $(ZIP) $(PLUGIN_DIR) -x "*.log" -x "*/.git/*"
+endif
 	@echo "✓ $(ZIP) ($$(du -h $(ZIP) | cut -f1))"
 
 install: sync restart
@@ -52,16 +63,33 @@ sync:
 	fi
 	@echo "→ Syncing to $(INSTALL_DIR)..."
 	@mkdir -p "$(INSTALL_BASE)"
+ifeq ($(OS),Windows_NT)
+	@rm -rf "$(INSTALL_DIR)"
+	@mkdir -p "$(INSTALL_DIR)"
+	@cp -R $(PLUGIN_DIR)/. "$(INSTALL_DIR)/"
+	@rm -rf "$(INSTALL_DIR)/.git"
+	@find "$(INSTALL_DIR)" -name "*.log" -delete
+else
 	@rsync -a --delete \
 		--exclude=".DS_Store" \
 		--exclude="*.log" \
 		--exclude=".git" \
 		$(PLUGIN_DIR)/ "$(INSTALL_DIR)/"
+endif
 
 APP_PROC      := /Applications/$(APP_NAME).app/
 
 restart:
 	@echo "→ Restarting $(APP_NAME)..."
+ifeq ($(OS),Windows_NT)
+	@# Read the running executable's path before killing it, so the relaunch
+	@# works regardless of where the user installed Ulanzi Studio.
+	@powershell -NoProfile -Command " \
+		$$p = Get-Process -Name 'UlanziStudio','Ulanzi Studio','UlanziDeck' -ErrorAction SilentlyContinue | Select-Object -First 1; \
+		$$exe = $$p.Path; \
+		if ($$p) { Stop-Process -Id $$p.Id -Force; Start-Sleep -Seconds 2 } ; \
+		if ($$exe) { Start-Process $$exe } else { Write-Host 'Ulanzi Studio not running — start it manually to load the plugin.' }"
+else
 	@osascript -e 'tell application "$(APP_NAME)" to quit' >/dev/null 2>&1 || true
 	@for i in 1 2 3 4 5; do \
 		pgrep -f "$(APP_PROC)" >/dev/null 2>&1 || break; \
@@ -70,6 +98,7 @@ restart:
 	@pkill -f "$(APP_PROC)" >/dev/null 2>&1 || true
 	@sleep 1
 	@open -a "$(APP_NAME)"
+endif
 
 clean:
 	@rm -rf $(DIST_DIR)

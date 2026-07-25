@@ -1,6 +1,6 @@
 {
   "Name": "Uso de Claude Code",
-  "Description": "Monitoriza en tiempo real el uso de tu suscripción de Claude Code. Muestra el límite móvil de 5 horas y el límite semanal (todos los modelos) directamente en el botón de tu Ulanzi Deck, con umbrales de color y cuenta regresiva hasta el reinicio. Las credenciales se leen de forma segura del Llavero de macOS; no se necesita clave de API.",
+  "Description": "Monitoriza en tiempo real el uso de tu suscripción de Claude Code. Muestra el límite móvil de 5 horas y el límite semanal (todos los modelos) directamente en el botón de tu Ulanzi Deck, con umbrales de color y cuenta regresiva hasta el reinicio. Las credenciales se leen de tu sesión de Claude Code ya iniciada (Llavero de macOS en Mac, ~/.claude/.credentials.json en Windows); no se necesita clave de API.",
   "Actions": [
     {
       "Name": "Límite de 5 horas",

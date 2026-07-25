@@ -1,6 +1,6 @@
 {
   "Name": "Utilisation Claude Code",
-  "Description": "Surveillez en temps réel l'utilisation de votre abonnement Claude Code. Affiche la limite glissante de 5 heures et la limite hebdomadaire (tous modèles) directement sur le bouton de votre Ulanzi Deck, avec des seuils de couleur et un compte à rebours avant réinitialisation. Les identifiants sont lus en toute sécurité depuis le trousseau macOS — aucune clé API requise.",
+  "Description": "Surveillez en temps réel l'utilisation de votre abonnement Claude Code. Affiche la limite glissante de 5 heures et la limite hebdomadaire (tous modèles) directement sur le bouton de votre Ulanzi Deck, avec des seuils de couleur et un compte à rebours avant réinitialisation. Les identifiants sont lus depuis votre session Claude Code existante (trousseau macOS sur Mac, ~/.claude/.credentials.json sur Windows) — aucune clé API requise.",
   "Actions": [
     {
       "Name": "Limite 5 heures",
