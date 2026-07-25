@@ -5,7 +5,7 @@
     "resources/banner1.png",
     "resources/banner3.png"
   ],
-  "longDescription": "Monitor your Claude Code subscription usage in real time. Shows the 5-hour rolling limit and the weekly limit (all models) directly on your Ulanzi Deck button, with color-coded thresholds and reset countdown. Credentials are read securely from the macOS Keychain — no API key required.",
+  "longDescription": "Monitor your Claude Code subscription usage in real time. Shows the 5-hour rolling limit and the weekly limit (all models) directly on your Ulanzi Deck button, with color-coded thresholds and reset countdown. Works on macOS and Windows, reading credentials from your existing Claude Code login (macOS Keychain on Mac, ~/.claude/.credentials.json on Windows) — no API key required.",
   "deviceTypes": [
     "deck"
   ],

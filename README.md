@@ -6,7 +6,7 @@
 
 [![Available on Ulanzi Community Store](https://raw.githubusercontent.com/narlei/ulanzicommunitystore/main/docs/badges/ulanzi-community-store.svg)](https://ulanzicommunitystore.narlei.com/plugins/?plugin=narlei/ulanzideck_claude)
 
-Display your Claude Code subscription usage directly on your Ulanzi Deck — for **one or several** Claude Code accounts at once.
+Display your Claude Code subscription usage directly on your Ulanzi Deck — for **one or several** Claude Code accounts at once. Runs on **macOS and Windows**.
 
 ![Ulanzi Deck preview](resources/banner2.png)
 
@@ -27,7 +27,12 @@ Each button has two settings in its Property Inspector:
 - **Config dir** — the `CLAUDE_CONFIG_DIR` of the account, e.g. `~/.claude-mine`. Leave blank for the default account.
 - **Accent color** — `None` or `Custom…`. Pick *Custom* and choose a color to draw a thin stripe across the top of the button.
 
-Under the hood, Claude Code stores each account's OAuth token in the macOS Keychain under `Claude Code-credentials` for the default config dir, and `Claude Code-credentials-<hash>` (first 8 hex of `sha256(absolute config dir path)`) for a custom `CLAUDE_CONFIG_DIR`. The plugin computes that service name from the config dir you enter and reads the matching token — no extra setup required.
+Under the hood, where the token lives depends on the OS:
+
+- **macOS** — the Keychain, under `Claude Code-credentials` for the default config dir, and `Claude Code-credentials-<hash>` (first 8 hex of `sha256(absolute config dir path)`) for a custom `CLAUDE_CONFIG_DIR`. The plugin computes that service name from the config dir you enter and reads the matching token.
+- **Windows** — a plain `.credentials.json` file inside the config dir itself (`%USERPROFILE%\.claude\.credentials.json` by default), so pointing a button at another config dir automatically reads that account's file.
+
+Either way, no extra setup is required. The **Config dir** field accepts `~/...` paths on both platforms, plus `%USERPROFILE%`-style environment variables on Windows.
 
 ## Installation
 
@@ -36,12 +41,12 @@ Download the latest release from https://ulanzicommunitystore.narlei.com/plugins
 ## Requirements
 
 - Ulanzi Deck 3.0.11 or later
-- macOS 10.15 or later
-- Claude Code subscription (credentials stored in your macOS Keychain — no API key required)
+- macOS 10.15 or later, **or** Windows 10 or later
+- Claude Code CLI signed in (`claude auth login`) — no API key required
 
 ## How It Works
 
-The plugin reads your Claude Code credentials from the macOS Keychain and fetches your current usage from the Anthropic API. It displays:
+The plugin reads your existing Claude Code credentials (macOS Keychain on Mac, `~/.claude/.credentials.json` on Windows) and fetches your current usage from the Anthropic API. It displays:
 
 - **Utilization %** - How much of your limit you've used
 - **Reset Time** - When your limit resets (e.g. `47h`, `2d`)
@@ -55,6 +60,8 @@ Credentials are never stored by the plugin.
 make install   # sync to local Ulanzi Deck plugins folder
 make package   # build distributable ZIP in dist/
 ```
+
+The Makefile detects the OS and targets the right plugins folder (`~/Library/Application Support/...` on macOS, `%APPDATA%\Ulanzi\UlanziDeck\Plugins` on Windows). On Windows run it from **Git Bash / MSYS2**, since the targets use a POSIX shell.
 
 ## Author
 

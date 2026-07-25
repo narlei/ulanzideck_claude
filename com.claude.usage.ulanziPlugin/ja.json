@@ -1,6 +1,6 @@
 {
   "Name": "Claude Code 使用量",
-  "Description": "Claude Code サブスクリプションの使用量をリアルタイムで監視します。5 時間のローリング制限と週間制限（全モデル）を Ulanzi Deck のボタンに直接表示し、色分けされたしきい値とリセットまでのカウントダウンを表示します。認証情報は macOS キーチェーンから安全に読み取られ、API キーは不要です。",
+  "Description": "Claude Code サブスクリプションの使用量をリアルタイムで監視します。5 時間のローリング制限と週間制限（全モデル）を Ulanzi Deck のボタンに直接表示し、色分けされたしきい値とリセットまでのカウントダウンを表示します。認証情報は既存の Claude Code ログイン（macOS ではキーチェーン、Windows では ~/.claude/.credentials.json）から読み取られ、API キーは不要です。",
   "Actions": [
     {
       "Name": "5 時間制限",

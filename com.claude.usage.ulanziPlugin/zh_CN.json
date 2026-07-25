@@ -1,6 +1,6 @@
 {
   "Name": "Claude Code 用量",
-  "Description": "在 Ulanzi Deck 上实时监控你的 Claude Code 订阅用量。显示 5 小时滚动限额和每周总限额（所有模型），按钮带有颜色阈值和重置倒计时。凭证安全地从 macOS 钥匙串读取——无需 API 密钥。",
+  "Description": "在 Ulanzi Deck 上实时监控你的 Claude Code 订阅用量。显示 5 小时滚动限额和每周总限额（所有模型），按钮带有颜色阈值和重置倒计时。凭证读取自你已有的 Claude Code 登录（macOS 使用钥匙串，Windows 使用 ~/.claude/.credentials.json）——无需 API 密钥。",
   "Actions": [
     {
       "Name": "5 小时限额",

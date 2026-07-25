@@ -1,6 +1,6 @@
 {
   "Name": "Claude Code Nutzung",
-  "Description": "Überwache die Nutzung deines Claude-Code-Abos in Echtzeit. Zeigt das rollierende 5-Stunden-Limit und das Wochenlimit (alle Modelle) direkt auf deiner Ulanzi-Deck-Taste an, mit farbigen Schwellenwerten und Countdown bis zum Reset. Die Anmeldedaten werden sicher aus dem macOS-Schlüsselbund gelesen — kein API-Schlüssel erforderlich.",
+  "Description": "Überwache die Nutzung deines Claude-Code-Abos in Echtzeit. Zeigt das rollierende 5-Stunden-Limit und das Wochenlimit (alle Modelle) direkt auf deiner Ulanzi-Deck-Taste an, mit farbigen Schwellenwerten und Countdown bis zum Reset. Die Anmeldedaten werden aus deinem bestehenden Claude-Code-Login gelesen (macOS-Schlüsselbund unter macOS, ~/.claude/.credentials.json unter Windows) — kein API-Schlüssel erforderlich.",
   "Actions": [
     {
       "Name": "5-Stunden-Limit",
